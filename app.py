@@ -7,15 +7,17 @@ with open('api_key.txt', 'r') as file:
     api_key = file.read().strip()
 with open('secret_key.txt', 'r') as file:
     secret_key = file.read().strip()
-print('api_key:',api_key)
-print('secret_key:',secret_key)
+print('api_key:', api_key)
+print('secret_key:', secret_key)
 exchange = ccxt.bybit({
     'apiKey': api_key,
     'secret': secret_key,
+    'enableRateLimit': True, "options": {'defaultType': 'spot'}
 })
 # exchange.fetch_markets()
 fetch_balance = exchange.fetch_balance()
-print('fetch_balance:',fetch_balance)
+print('fetch_balance:', fetch_balance)
+
 
 @app.route('/do_something', methods=['GET', 'POST'])
 def do_something():
@@ -35,45 +37,45 @@ def do_something():
         details = {'symbol': symbol, 'price': price, 'qty': qty}
         if side == 'buy' or side == 'BUY':
             try:
-                req_response = exchange.create_limit_buy_order(symbol,qty,price)
+                req_response = exchange.create_limit_buy_order(symbol, qty, price)
                 print(req_response)
                 suc_fail = True
             except Exception as e:
-                print('Error[order]:',e)
+                print('Error[order]:', e)
                 req_response = str(e)
         elif side == 'sell' or side == 'SELL':
             try:
-                req_response = exchange.create_limit_buy_order(symbol,qty,price)
+                req_response = exchange.create_limit_buy_order(symbol, qty, price)
                 print(req_response)
                 suc_fail = True
             except Exception as e:
-                print('Error[order]:',e)
+                print('Error[order]:', e)
                 req_response = str(e)
     elif req_type == 'cancel':
         id = data.get('id')
         symbol = data.get('symbol')
-        details = {'id':id,'symbol': symbol}
+        details = {'id': id, 'symbol': symbol}
         try:
             req_response = exchange.cancel_order(id, symbol)
             print(req_response)
             suc_fail = True
         except Exception as e:
-            print('Error[cancel]:',e)
+            print('Error[cancel]:', e)
             req_response = str(e)
     elif req_type == 'cancel_all':
         symbol = data.get('symbol')
-        details = {'symbol':symbol}
+        details = {'symbol': symbol}
         try:
             req_response = exchange.cancel_all_orders(symbol)
             print(req_response)
             suc_fail = True
         except Exception as e:
-            print('Error[cancel_all]:',e)
+            print('Error[cancel_all]:', e)
             req_response = str(e)
     elif req_type == 'fetch_total_balance':
         try:
             total_balance = exchange.fetch_total_balance()
-            print('total_balance:',total_balance)
+            print('total_balance:', total_balance)
             req_response = total_balance
             suc_fail = True
         except Exception as e:
@@ -85,12 +87,13 @@ def do_something():
         status = 'fail'
     response = {
         'status': status,
-        'req_type' : req_type,
+        'req_type': req_type,
         'details': details,
         'response': req_response
     }
     # 여기에 나머지 코드를 작성합니다.
     return jsonify(response)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

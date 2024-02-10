@@ -69,7 +69,7 @@ def do_something():
     elif req_type == 'fetch_total_balance':
         try:
             total_balance = exchange.fetch_total_balance()
-            print(total_balance)
+            print('total_balance:',total_balance)
             req_response = total_balance
             suc_fail = True
         except Exception as e:

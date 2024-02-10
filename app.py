@@ -12,7 +12,9 @@ exchange = ccxt.bybit({
     'apiKey': api_key,
     'secret': secret_key,
 })
-exchange.fetch_balance()
+# exchange.fetch_markets()
+fetch_balance = exchange.fetch_balance()
+print('fetch_balance:',fetch_balance)
 
 @app.route('/do_something', methods=['GET', 'POST'])
 def do_something():

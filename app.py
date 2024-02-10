@@ -35,7 +35,7 @@ def do_something():
                 print(req_response)
                 suc_fail = True
             except Exception as e:
-                print('Error:',e)
+                print('Error[order]:',e)
                 req_response = str(e)
         elif side == 'sell' or side == 'SELL':
             try:
@@ -43,7 +43,7 @@ def do_something():
                 print(req_response)
                 suc_fail = True
             except Exception as e:
-                print('Error:',e)
+                print('Error[order]:',e)
                 req_response = str(e)
     elif req_type == 'cancel':
         id = data.get('id')
@@ -54,7 +54,7 @@ def do_something():
             print(req_response)
             suc_fail = True
         except Exception as e:
-            print('Error:',e)
+            print('Error[cancel]:',e)
             req_response = str(e)
     elif req_type == 'cancel_all':
         symbol = data.get('symbol')
@@ -64,7 +64,16 @@ def do_something():
             print(req_response)
             suc_fail = True
         except Exception as e:
-            print('Error:',e)
+            print('Error[cancel_all]:',e)
+            req_response = str(e)
+    elif req_type == 'fetch_total_balance':
+        try:
+            total_balance = exchange.fetch_total_balance()
+            print(total_balance)
+            req_response = total_balance
+            suc_fail = True
+        except Exception as e:
+            print('Error[fetch_total_balance]:', e)
             req_response = str(e)
     if suc_fail:
         status = 'success'

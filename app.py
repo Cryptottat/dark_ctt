@@ -7,7 +7,8 @@ with open('api_key.txt', 'r') as file:
     api_key = file.read().strip()
 with open('secret_key.txt', 'r') as file:
     secret_key = file.read().strip()
-
+print('api_key:',api_key)
+print('secret_key:',secret_key)
 exchange = ccxt.bybit({
     'apiKey': api_key,
     'secret': secret_key,

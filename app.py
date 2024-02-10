@@ -81,6 +81,15 @@ def do_something():
         except Exception as e:
             print('Error[fetch_total_balance]:', e)
             req_response = str(e)
+    elif req_type == 'fetch_free_balance':
+        try:
+            total_balance = exchange.fetch_free_balance()
+            print('free_balance:', total_balance)
+            req_response = total_balance
+            suc_fail = True
+        except Exception as e:
+            print('Error[fetch_total_balance]:', e)
+            req_response = str(e)
     if suc_fail:
         status = 'success'
     else:

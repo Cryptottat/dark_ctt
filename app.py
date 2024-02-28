@@ -45,7 +45,7 @@ def do_something():
                 req_response = str(e)
         elif side == 'sell' or side == 'SELL':
             try:
-                req_response = exchange.create_limit_buy_order(symbol, qty, price)
+                req_response = exchange.create_limit_sell_order(symbol, qty, price)
                 print(req_response)
                 suc_fail = True
             except Exception as e:
